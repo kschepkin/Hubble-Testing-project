@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration>
+    <!-- Секция аппендеров -->
+    <Appenders>
+        <!-- Файловый аппендер -->
+        <File name="file" fileName="log.log">
+            <PatternLayout>
+                <Pattern>%d %p %c{1.} [%t] %m %ex%n</Pattern>
+            </PatternLayout>
+        </File>
+        <!-- Файловый аппендер -->
+        <File name="file2" fileName="log2.log">
+            <!-- Фильтр по маркеру -->
+            <MarkerFilter marker="fileonly" onMatch="DENY" onMismatch="ACCEPT"/>
+            <PatternLayout>
+                <Pattern>%d %p %c{1.} [%t] %m %ex%n</Pattern>
+            </PatternLayout>
+        </File>
+    </Appenders>
+    <!-- Секция логгеров -->
+    <Loggers>
+        <!-- Корневой логгер -->
+        <Root level="trace">
+            <AppenderRef ref="file" level="INFO"/>
+        </Root>
+        <!-- Логгер нашего класса -->
+        <Logger name="controllers.AllureLogger" level="info" additivity="false">
+            <AppenderRef ref="file2" level="INFO"/>
+        </Logger>
+
+        <Logger name="org.apache.http.headers" level="error" additivity="false">
+            <AppenderRef ref="file" level="ERROR"/>
+        </Logger>
+
+        <Logger name="org.apache.http.wire" level="error" additivity="false">
+            <AppenderRef ref="file" level="ERROR"/>
+        </Logger>
+
+        <Logger name="org.apache.http.conn.ssl.SSLConnectionSocketFactory" level="error" additivity="false">
+            <AppenderRef ref="file" level="ERROR"/>
+        </Logger>
+    </Loggers>
+</Configuration>
