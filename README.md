@@ -1,4 +1,4 @@
-# testing-project <img src="http://icons.iconarchive.com/icons/carlosjj/google-jfk/128/hubble-icon.png" width="75px;"/> <br>
+# Hubble-Testing-project <img src="http://icons.iconarchive.com/icons/carlosjj/google-jfk/128/hubble-icon.png" width="75px;"/> <br>
          
 
 
@@ -107,7 +107,7 @@ We use [SemVer](http://semver.org/) for versioning. For the versions available, 
 
 <!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section -->
 <!-- prettier-ignore -->
-| [<img src="https://i.ibb.co/6wdHTH7/2018-11-18-21-56-15.png" width="100px;"/><br /><sub><b>Smetanin Kirill</b></sub>](https://github.com/Rocksod)<br />         | [<img src="https://i.ibb.co/nQdjjx8/photo-2017-04-04-18-45-16.jpg" width="100px;"/><br /><sub><b>Schepkin Konstantin</b></sub>](https://gitlab.com/konstantin.schepkin)<br /> | 
+| [<img src="https://i.ibb.co/6wdHTH7/2018-11-18-21-56-15.png" width="100px;"/><br /><sub><b>Smetanin Kirill</b></sub>](https://github.com/Rocksod)<br />         | [<img src="https://i.ibb.co/nQdjjx8/photo-2017-04-04-18-45-16.jpg" width="100px;"/><br /><sub><b>Schepkin Konstantin</b></sub>](hhttps://github.com/kschepkin)<br /> | 
 | :-----------------------------------------------------------------------------------------------------------------------------------------------------------------: | :------------------------------------------------------------------------------------------------------------: |
 <!-- ALL-CONTRIBUTORS-LIST:END -->
 * **Schepkin Konstantin** - *Liga QA Expert* 
