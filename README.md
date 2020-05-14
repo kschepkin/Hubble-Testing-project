@@ -1,6 +1,14 @@
-# Hubble-Testing-project <img src="http://icons.iconarchive.com/icons/carlosjj/google-jfk/128/hubble-icon.png" width="75px;"/> <br>
-         
+# Hubble-testing-project-example <img src="http://icons.iconarchive.com/icons/carlosjj/google-jfk/128/hubble-icon.png" width="75px;"/> <br>
+                             _____    _____    _        ______
+          |\     /||\     /|(  ___ \ (  ___ \ ( \      (  ____ \ 
+          | )   ( || )   ( || (   ) )| (   ) )| (      | (    \/
+          | (___) || |   | || (__/ / | (__/ / | |      | (__    
+          |  ___  || |   | ||  __ (  |  __ (  | |      |  __)   
+          | (   ) || |   | || (  \ \ | (  \ \ | |      | (      
+          | )   ( || (___) || )___) )| )___) )| (____/\| (____/\
+          |/     \|(_______)|/ \___/ |/ \___/ (_______/(_______/
 
+Hubble is a test automation project example for automated testing of Desktop web, mobile site and mobile apps. Based on Java, Selenide, Junit, Spring Boot, Gradle and Allure Reports.
 
 ## Getting Started
 
@@ -11,12 +19,12 @@ These instructions will get you a copy of the project up and running on your loc
 What things you need to install the software and how to install them
 
 * install jdk8
-* install lombok plugin
-* customize lombok plugin (Build, Execution, Deployment --> Compiler --> Annotation Processors, Enable annotation processing)
+* install lombok plugin <br>
+ ```Go to File > Settings > Plugins Search for Lombok Plugin. Click on Install plugin.```
+* customize lombok plugin <br>
+```Build, Execution, Deployment --> Compiler --> Annotation Processors, Enable annotation processing)```
 * install allure 
-```
-Give examples
-```
+
 ### Requirements
 
 * [Java 8 JDK](http://www.oracle.com/technetwork/java/javase/downloads/index.html)
@@ -41,9 +49,9 @@ Simulator will start automatically after start mobile tests
 
 
 ```
-until finished
+
 ```
-End with an example of getting some data out of the system or using it for a little demo
+
 
 
 ## Running the tests
@@ -97,24 +105,29 @@ Add additional notes about how to deploy this on a live system
 
 ## Contributing
 
-Please read [CONTRIBUTING.md](https://gist.github.com/PurpleBooth/b24679402957c63ec426) for details on our code of conduct, and the process for submitting pull requests to us.
 
 ## Versioning
 
-We use [SemVer](http://semver.org/) for versioning. For the versions available, see the [tags on this repository](https://github.com/your/project/tags). 
+
 
 ## Authors
 
 <!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section -->
 <!-- prettier-ignore -->
-| [<img src="https://i.ibb.co/6wdHTH7/2018-11-18-21-56-15.png" width="100px;"/><br /><sub><b>Smetanin Kirill</b></sub>](https://github.com/Rocksod)<br />         | [<img src="https://i.ibb.co/nQdjjx8/photo-2017-04-04-18-45-16.jpg" width="100px;"/><br /><sub><b>Schepkin Konstantin</b></sub>](hhttps://github.com/kschepkin)<br /> | 
+| [<img src="https://i.ibb.co/6wdHTH7/2018-11-18-21-56-15.png" width="100px;"/><br/><sub><b>Smetanin Kirill</b></sub>](https://github.com/Rocksod)<br />         | [<img src="https://i.ibb.co/nQdjjx8/photo-2017-04-04-18-45-16.jpg" width="100px;"/><br /><sub><b>Schepkin Konstantin</b></sub>](https://gitlab.com/konstantin.schepkin)<br /> | 
 | :-----------------------------------------------------------------------------------------------------------------------------------------------------------------: | :------------------------------------------------------------------------------------------------------------: |
 <!-- ALL-CONTRIBUTORS-LIST:END -->
-* **Schepkin Konstantin** - *Liga QA Expert* 
-* **Smetanin Kirill** - *Lead QA GJ* 
 
+* **Schepkin Konstantin** - *Liga QA Expert* 
+* **Smetanin Kirill** - *Senior test engineer* 
+
+
+## License
+*GNU GENERAL PUBLIC LICENSE version 3* by [Free Software Foundation, Inc.](http://fsf.org/).  <br>
+Read the [GPL v3](http://www.gnu.org/licenses/).
 
 
 ## Acknowledgments
+
 
 

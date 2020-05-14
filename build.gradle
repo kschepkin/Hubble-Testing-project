@@ -1,7 +1,7 @@
 buildscript {
     ext {
         jUnit5Version = '5.5.2'
-        selenideVersion='5.4.0'
+        selenideVersion='5.11.1'
         webDriverManagerVersion = '3.6.2'
         restAssuredVersion = '4.0.0'
         galenVersion = '2.4.4'

@@ -4,7 +4,6 @@ import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.Selenide;
 import com.codeborne.selenide.SelenideElement;
 import io.qameta.allure.Step;
-import org.junit.Assert;
 import org.openqa.selenium.Cookie;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
@@ -15,13 +14,13 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.util.Arrays;
 
-import static com.codeborne.selenide.Selenide.sleep;
+import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.WebDriverRunner.getWebDriver;
 import static controllers.PropertyLoader.loadProperty;
 import static controllers.PropertyLoader.loadPropertyOrDefault;
+import static data.Assertions.ASSERT_LOG_ERROR;
+import static data.Assertions.ASSERT_LOG_SUCCESS;
 import static data.Constants.DEFAULT_TIMEOUT;
-import static helpers.HacHelper.getPaymentStatusByOrder;
-import static helpers.HacHelper.getStatusByOrder;
 import static java.lang.String.format;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.containsStringIgnoringCase;
@@ -93,7 +92,6 @@ public class BaseTest {
         }
     }
 
-
     /**
      * Ждем элемент на странице
      *
@@ -112,7 +110,6 @@ public class BaseTest {
     public void waitForEnabledElement(WebElement element) {
         new WebDriverWait(driver, 10).until(ExpectedConditions.elementToBeClickable(element));
     }
-
 
     /**
      * Ждем пока на элементе не появится текст
@@ -189,13 +186,12 @@ public class BaseTest {
         }
     }
 
-
     @Step("Проверка текста в элементе")
     public static void assertContainsText(SelenideElement element, String equalsText) {
-        waitElementsUntil(Condition.visible, element);
-        assertThat(format("Текст элемента: [%s] не содержит в себе [%s]", element.text(), equalsText), element.text(),
+        waitElementsUntil(visible, element);
+        assertThat(format(ASSERT_LOG_ERROR, element.text(), equalsText), element.text(),
                 containsStringIgnoringCase(equalsText));
-        AllureLogger.info(format("Текст элемента: [%s] соответствует ожидаемому: [%s]", element.text(), equalsText));
+        AllureLogger.info(format(ASSERT_LOG_SUCCESS, element.text(), equalsText));
     }
 
     /**
@@ -205,12 +201,10 @@ public class BaseTest {
      * @param attribute название аттрибута
      * @param value     значение аттрибута
      */
-    @Step("Проверка, что свойство элемента изменилось на нужное нам")
+    @Step("Проверка, что свойство элемента имеет нужное значение")
     public static void waitChangeElementProperty(WebElement element, String attribute, String value) {
         new WebDriverWait(getWebDriver(), 5).until(ExpectedConditions.attributeToBe(element, attribute, value));
     }
-
-
 
     public static void waitForLoadPage() {
         new WebDriverWait(getWebDriver(), 3000).until(
@@ -221,7 +215,9 @@ public class BaseTest {
         return "+7 " + phone.substring(0, 3) + "-" + phone.substring(3, 6) + "-" + phone.substring(6, 8) + "-" + phone.substring(8, 10);
     }
 
-
+    @Step("Добавляем нужные куки")
+    public void addCookies() {
+    }
 
     @Step("Чистим куки, перезагружаем страницу и добавляем нужные куки")
     public void clearCookiesAndRefresh() {

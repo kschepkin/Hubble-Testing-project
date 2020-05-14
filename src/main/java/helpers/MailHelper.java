@@ -1,6 +1,5 @@
 package helpers;
 
-import com.sun.mail.imap.protocol.FLAGS;
 import controllers.AllureLogger;
 import controllers.PropertyLoader;
 import io.qameta.allure.Attachment;
@@ -22,10 +21,12 @@ import java.util.regex.Pattern;
 
 import static com.codeborne.selenide.Selenide.sleep;
 import static controllers.PropertyLoader.loadProperty;
+import static javax.mail.Flags.Flag.DELETED;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.containsString;
 
 public class MailHelper {
+    public static final String EMAIL_WRONG_TYPE_ERROR = "Тип письма определён неверно.";
     public static final Logger log = LogManager.getLogger(PropertyLoader.class);
     String header;
     String body;
@@ -33,7 +34,7 @@ public class MailHelper {
     Integer var;
 
 
-    // Регулярки для поиска текста в письме
+    // Пример регулярки для поиска текста в письме
     private static List<Pattern> getPattern() {
         List<Pattern> emailPattern = new ArrayList<>();
         emailPattern.add(0, Pattern.compile("Это сообщение для ([^\"]*) от", Pattern.CASE_INSENSITIVE | Pattern.DOTALL));
@@ -65,7 +66,7 @@ public class MailHelper {
         Message[] msg = folder.getMessages();
 
         for (int i = 0; i < msg.length; i++) {
-            msg[i].setFlag(FLAGS.Flag.DELETED, true);
+            msg[i].setFlag(DELETED, true);
         }
 
         folder.close(true);
@@ -86,6 +87,7 @@ public class MailHelper {
         helpers.MailHelper message = new helpers.MailHelper();
         message.var = 0;
 
+//        Примеры типов писем
         switch (type) {
             case "Восстановление пароля":
                 message = getMail(login, mailpassword, mailserver, forgotPass, timeout);
@@ -103,10 +105,10 @@ public class MailHelper {
                 return message;
 
             default:
-                log.error("Тип письма определён неверно.");
-                message.body = "Тип письма определён неверно.";
-                message.header = "Тип письма определён неверно.";
-                message.html = "Тип письма определён неверно.";
+                log.error(EMAIL_WRONG_TYPE_ERROR);
+                message.body = EMAIL_WRONG_TYPE_ERROR;
+                message.header = EMAIL_WRONG_TYPE_ERROR;
+                message.html = EMAIL_WRONG_TYPE_ERROR;
                 return message;
         }
     }
@@ -177,7 +179,7 @@ public class MailHelper {
         /* Делаем все письма во входящих прочитанными и проставляем флаг "Deleted" */
         Message[] messages = folder.getMessages();    // Получение всех сообщений в папке "Входящие"
         folder.setFlags(messages, new Flags(Flags.Flag.SEEN), true);
-        folder.setFlags(messages, new Flags(Flags.Flag.DELETED), true);
+        folder.setFlags(messages, new Flags(DELETED), true);
         AllureLogger.debug("Письма удалены");
 
         // Закрыть соединение
@@ -234,7 +236,7 @@ public class MailHelper {
     private static String getHtmlSourceFromMessage(Message message) throws MessagingException, IOException {
         AllureLogger.debug("Получаем исходный код письма с темой: " + message.getSubject());
 //        MimeMultipart mimeMultipart = (MimeMultipart) message.getContent();
-        String result = message.getContent().toString();
+//        String result = message.getContent().toString();
 //        int count = mimeMultipart.getCount();
 //        AllureLogger.debug("count mime: " + count);
 //        for (int i = 0; i < count; i++) {
@@ -242,7 +244,7 @@ public class MailHelper {
 //            result = result + "\n" + bodyPart.getContent();
 //            AllureLogger.debug("result "+i+": " + result);
 //        }
-        return result;
+        return message.getContent().toString();
     }
 
     //        Проверка почтового адреса в тексте письма

@@ -11,7 +11,7 @@ import java.io.StringWriter;
 public class AllureLogger {
 
     private static final Logger logger = LogManager.getLogger(AllureLogger.class);
-    private final static String BRACKETS_STRING = "{} {}";
+    private static final String BRACKETS_STRING = "{} {}";
 
     private AllureLogger() {
         throw new IllegalStateException("Utility class");

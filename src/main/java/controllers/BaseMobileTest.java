@@ -9,10 +9,8 @@ import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.MobileElement;
 import io.appium.java_client.PerformsTouchActions;
 import io.appium.java_client.TouchAction;
-import io.appium.java_client.remote.MobileCapabilityType;
 import io.appium.java_client.touch.WaitOptions;
 import io.appium.java_client.touch.offset.PointOption;
-import io.qameta.allure.Step;
 import io.qameta.allure.selenide.AllureSelenide;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.AfterEach;
@@ -21,8 +19,8 @@ import org.openqa.selenium.*;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.WebDriverWait;
-import ru.testing.mobile.web.pages.*;
-import ru.testing.web.pages.YandexPaymentPages;
+import ru.testing.mobile.web.pages.BaseMobilePage;
+import ru.testing.mobile.web.pages.YandexSearchMobilePage;
 
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -35,70 +33,38 @@ import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.sleep;
 import static com.codeborne.selenide.WebDriverRunner.getWebDriver;
 import static controllers.PropertyLoader.loadProperty;
-import static controllers.PropertyLoader.loadPropertyOrDefault;
 import static data.Constants.DEFAULT_TIMEOUT;
 import static data.Constants.TITTLE_HUBBLE;
-import static helpers.HacHelper.setExpertSenderStatus;
-import static helpers.ListHelper.clickRandomListElementByMaxCondition;
-import static helpers.ListHelper.getRandomElementFromList;
+import static io.appium.java_client.remote.AndroidMobileCapabilityType.AVD_ARGS;
+import static io.appium.java_client.remote.AndroidMobileCapabilityType.CHROME_OPTIONS;
+import static io.appium.java_client.remote.IOSMobileCapabilityType.XCODE_ORG_ID;
+import static io.appium.java_client.remote.IOSMobileCapabilityType.XCODE_SIGNING_ID;
 import static io.appium.java_client.remote.MobileCapabilityType.*;
 import static org.openqa.selenium.remote.CapabilityType.BROWSER_NAME;
 import static org.openqa.selenium.remote.CapabilityType.PLATFORM_NAME;
 
 public class BaseMobileTest extends BaseTest {
     private static AppiumDriver driver;
-    private TouchAction _touchAction;
-    protected AuthMobilePage authMobilePage = new AuthMobilePage();
+    static DesiredCapabilities capabilities = new DesiredCapabilities();
+    private TouchAction touchAction;
+    protected YandexSearchMobilePage yandexSearchMobilePage = new YandexSearchMobilePage();
     protected BaseMobilePage baseMobilePage = new BaseMobilePage();
-    protected CartMobilePage cartMobilePage = new CartMobilePage();
-    protected SocialNetworksMobilePage socialNetworksMobilePage = new SocialNetworksMobilePage();
-    protected ListingMobilePage listingMobilePage = new ListingMobilePage();
-    protected ProductMobilePage productMobilePage = new ProductMobilePage();
-    protected OrderHistoryMobilePage orderHistoryMobilePage = new OrderHistoryMobilePage();
-    protected ThankYouMobilePage thankYouMobilePage = new ThankYouMobilePage();
-    protected CheckoutMobilePage checkoutMobilePage = new CheckoutMobilePage();
-    protected YandexPaymentPages yandexPaymentPage = new YandexPaymentPages();
-    protected ProfileMobilePage profileMobilePage = new ProfileMobilePage();
-    protected OrderMobilePage orderMobilePage = new OrderMobilePage();
-    protected ResetPasswordMobilePage resetPasswordMobilePage = new ResetPasswordMobilePage();
-    protected SearchMobilePage searchMobilePage = new SearchMobilePage();
-    protected SearchResultMobilePage searchResultMobilePage = new SearchResultMobilePage();
-    protected WishlistMobilePage wishlistMobilePage = new WishlistMobilePage();
 
     @BeforeAll
     public static void setUp() throws MalformedURLException {
         AppiumServerController.startAppiumServer();
 
-        // Установка capabilities для устройств. Оставил часть для примера
-        DesiredCapabilities capabilities = new DesiredCapabilities();
+        // Set capabilities for devices
         switch (Objects.requireNonNull(loadProperty("devicePlatform"))) {
             case "Android":
-                capabilities.setCapability(PLATFORM_NAME, "Android");
-                capabilities.setCapability(PLATFORM_VERSION, "9.0");
-                capabilities.setCapability(DEVICE_NAME, "Pixel");
-                capabilities.setCapability("avd", "Pixel");
-                capabilities.setCapability(BROWSER_NAME, "Chrome");
-                capabilities.setCapability(AUTOMATION_NAME, "Appium");
-                capabilities.setCapability("avdArgs", "-writable-system");
-                capabilities.setCapability("appium:chromeOptions", ImmutableMap.of("w3c", false));
-                capabilities.setCapability(MobileCapabilityType.NEW_COMMAND_TIMEOUT, 120);
+                setAndroidBaseCapabilities("9.0", "Pixel");
+                capabilities.setCapability(AVD_ARGS, "-writable-system");
                 break;
             case "iphone7":
-                capabilities.setCapability("platformName", "ios");
-                capabilities.setCapability("platformVersion", "13.3");
-                capabilities.setCapability("browserName", "Safari");
-                capabilities.setCapability("deviceName", "iPhone (Gloria)");
-                capabilities.setCapability("automationName", "XCUITest");
-                capabilities.setCapability(MobileCapabilityType.NEW_COMMAND_TIMEOUT, 120);
-                capabilities.setCapability("xcodeSigningId", "iPhone Developer");
+                setIOSBaseCapabilities("13.3", "iPhone (Gloria)", "set_UID_here");
                 break;
             default:
-                capabilities.setCapability("platformName", "ios");
-                capabilities.setCapability("platformVersion", "13.3");
-                capabilities.setCapability("browserName", "Safari");
-                capabilities.setCapability("deviceName", "iPhone 8");
-                capabilities.setCapability("automationName", "XCUITest");
-                capabilities.setCapability(MobileCapabilityType.NEW_COMMAND_TIMEOUT, 120);
+                setIOSBaseCapabilities("13.3", "iPhone 8", "");
                 break;
         }
 
@@ -109,8 +75,29 @@ public class BaseMobileTest extends BaseTest {
         driver.manage().timeouts().implicitlyWait(DEFAULT_TIMEOUT, TimeUnit.MILLISECONDS);
         System.out.println(TITTLE_HUBBLE);
         SelenideLogger.addListener("AllureSelenide", new AllureSelenide().screenshots(true).savePageSource(false));
-        setExpertSenderStatus(true);
         if (!isIOS()) closeSelectSearchEngineChromePopup();
+    }
+
+    public static void setAndroidBaseCapabilities(String platformVersion, String deviceName) {
+        capabilities.setCapability(PLATFORM_NAME, "Android");
+        capabilities.setCapability(BROWSER_NAME, "Chrome");
+        capabilities.setCapability(AUTOMATION_NAME, "Appium");
+        capabilities.setCapability(CHROME_OPTIONS, ImmutableMap.of("w3c", false));
+        capabilities.setCapability(NEW_COMMAND_TIMEOUT, 120);
+        capabilities.setCapability(PLATFORM_VERSION, platformVersion);
+        capabilities.setCapability(DEVICE_NAME, deviceName);
+    }
+
+    public static void setIOSBaseCapabilities(String platformVersion, String deviceName, String udid) {
+        capabilities.setCapability(PLATFORM_NAME, "ios");
+        capabilities.setCapability(PLATFORM_VERSION, platformVersion);
+        capabilities.setCapability(BROWSER_NAME, "Safari");
+        capabilities.setCapability(DEVICE_NAME, deviceName);
+        capabilities.setCapability(AUTOMATION_NAME, "XCUITest");
+        capabilities.setCapability(UDID, udid);
+        capabilities.setCapability(XCODE_ORG_ID, "");
+        capabilities.setCapability(NEW_COMMAND_TIMEOUT, 120);
+        capabilities.setCapability(XCODE_SIGNING_ID, "iPhone Developer");
     }
 
     public static void clickUntilResult(SelenideElement clickableElement, SelenideElement expectedVisibleElement) {
@@ -128,11 +115,9 @@ public class BaseMobileTest extends BaseTest {
     @AfterAll
     public static void tearDown() {
         AppiumServerController.stopAppiumServer();
-        Selenide.close();
-        setExpertSenderStatus(false);
+        Selenide.closeWindow();
         driver.quit();
     }
-
 
     @AfterEach
     public void clearCookie() {
@@ -151,8 +136,6 @@ public class BaseMobileTest extends BaseTest {
         driver.context(("CHROMIUM"));
     }
 
-
-
     protected boolean checkIfPopupWindowClosed() {
         try {
             return (new WebDriverWait(driver, 10)).until(new ExpectedCondition<Boolean>() {
@@ -167,17 +150,18 @@ public class BaseMobileTest extends BaseTest {
     }
 
     private TouchAction touchAction() {
-        if (_touchAction == null) {
-            _touchAction = new TouchAction((PerformsTouchActions) getWebDriver());
+        if (touchAction == null) {
+            touchAction = new TouchAction((PerformsTouchActions) getWebDriver());
         }
-        return _touchAction;
+        return touchAction;
     }
 
     protected void swipeElementWithDirection(MobileElement element, Direction direction) {
-
         double endXPercen = 0.9;
-        int startX, startY, endX, endY;
-
+        int startX;
+        int startY;
+        int endX;
+        int endY;
         int screenWidth = driver.manage().window().getSize().width;
         int screenHeight = driver.manage().window().getSize().height;
         int cssWidth = Integer.parseInt(((JavascriptExecutor) getWebDriver()).executeScript("return screen.availWidth").toString());
@@ -231,34 +215,4 @@ public class BaseMobileTest extends BaseTest {
         TOP, RIGHT, BOTTOM, LEFT
     }
 
-
-
-    private void scrollDown() {
-
-        //The viewing size of the device
-        Dimension size = driver.manage().window().getSize();
-
-        //x position set to mid-screen horizontally
-        int width = size.width / 2;
-
-        //Starting y location set to 80% of the height (near bottom)
-        int startPoint = (int) (size.getHeight() * 0.75);
-
-        //Ending y location set to 20% of the height (near top)
-        int endPoint = (int) (size.getHeight() * 0.25);
-
-        new TouchAction(driver).press(PointOption.point(width, startPoint)).waitAction(WaitOptions.waitOptions(Duration.ofMillis(1000))).moveTo(PointOption.point(width, endPoint)).release().perform();
-
-    }
-
-    public void clickWithScroll(SelenideElement element) {
-        for (int i = 0; i < 5; i++) {
-            try {
-                element.click();
-                break;
-            } catch (Exception e) {
-                scrollDown();
-            }
-        }
-    }
 }

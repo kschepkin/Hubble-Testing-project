@@ -14,34 +14,12 @@ public class PropertyLoader {
     private static final String PATH_TO_PROPERTIES_DEV = "src/test/resources/dev/Application.properties";
     private static final String PATH_TO_PROPERTIES_UAT = "src/test/resources/uat/Application.properties";
     private static final String PATH_TO_PROPERTIES_STG = "src/test/resources/stg/Application.properties";
-    private static final String PATH_TO_PROPERTIES_D1 = "src/test/resources/d1/Application.properties";
-    private static final String PATH_TO_PROPERTIES_S1 = "src/test/resources/s1/Application.properties";
     private static String path = null;
     public static final String NAME = "name";
     public static final String EMAIL = ".email";
     public static final String PASSWORD = ".password";
     public static final String PHONE = ".phone";
-    public static final String FIRST_NAME = ".firstName";
-    public static final String SECOND_NAME = ".secondName";
-    public static final String MIDDLE_NAME = ".middleName";
-    public static final String FACEBOOK_MAIL = ".facebookmail";
-    public static final String FACEBOOK_PASSWORD = ".facebookpassword";
-    public static final String YANDEX_MAIL = ".yandexmail";
-    public static final String YANDEX_PASSWORD = ".yandexpassword";
-    public static final String MAILRU_MAIL = ".mailrumail";
-    public static final String MAILRU_PASSWORD = ".mailrupassword";
-    public static final String MAIL_LOGIN = ".maillogin";
-    public static final String MAIL_PASSWORD = ".mailpassword";
     public static final String CURRENT_USER = "currentUser";
-    public static final String CORRECT_CARD_NUMBER = "correctCardNumber";
-    public static final String INCORRECT_CARD_NUMBER = "incorrectCardNumber";
-    public static final String EXPIRE_MONTH = "expireMonth";
-    public static final String EXPIRE_YEAR = "expireYear";
-    public static final String ADDRESS = ".address";
-    public static final String APARTMENT = ".apartment";
-    public static final String ADDRESS2 = ".address2";
-    public static final String APARTMENT2 = ".apartment2";
-    public static final String CHECK_EMAIL = "checkEmail";
 
     /**
      * Метод получения строки с тестовыми данными из environment.properties
@@ -125,11 +103,11 @@ public class PropertyLoader {
                     path = PATH_TO_PROPERTIES_UAT;
                     break;
                 default:
-                    path = PATH_TO_PROPERTIES_UAT;
+                    path = PATH_TO_PROPERTIES_DEV;
             }
         } catch (NullPointerException e) {
-            path = PATH_TO_PROPERTIES_S1;
-            AllureLogger.info("ENVIRONMENT выбран по умолчанию (uat)");
+            path = PATH_TO_PROPERTIES_DEV;
+            AllureLogger.info("ENVIRONMENT выбран по умолчанию (dev)");
         }
     }
 }
