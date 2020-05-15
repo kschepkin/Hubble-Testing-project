@@ -97,9 +97,9 @@ Add additional notes about how to deploy this on a live system
 ## Built With
 
 * [Gradle](https://gradle.org) - Dependency Management
-* [Spring Boot](https://spring.io) - application framework to get you Api tests up and running as quickly as possible
 * [Junit](https://junit.org/junit5) - test runner
 * [Selenide](https://selenide.org) - framework for test automation powered by Selenium WebDriver
+* [Rest Assured](http://rest-assured.io) - framework for testing and validating REST services 
 * [Appium](https://http://appium.io) - Appium is an open source test automation framework for use with native, hybrid and mobile web apps. 
                                        It drives iOS, Android, and Windows apps using the WebDriver protocol.
 
