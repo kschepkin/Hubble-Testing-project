@@ -11,7 +11,7 @@ import org.junit.jupiter.api.Test;
 import static com.codeborne.selenide.Selenide.open;
 import static com.codeborne.selenide.Selenide.sleep;
 
-@DisplayName("Отмена заказа через ЛК")
+@DisplayName("Тест поиска")
 public class YandexExampleDesktopTest extends BaseDesktopTest {
 
     @BeforeEach
@@ -33,15 +33,18 @@ public class YandexExampleDesktopTest extends BaseDesktopTest {
         yandexSearchPage.yandexSearchButton.click();
         waitChangeElementProperty(yandexSearchPage.yandexSearchRequest, "value", searchQuery);
         AllureLogger.info("Инфо лог");
-        sleep(5000);
+        sleep(1000);
     }
 
+    @Owner(value = "Автор теста")
+    @DisplayName("Пример теста яндекса")
+    @Link(value = "Кейс", url = "https://")
     @Test
     public void yandexSearch2variantTest() {
         String searchQuery = "котики";
 
         yandexSearchPage.searchByTextInYandexPage(searchQuery);
         AllureLogger.debug("дебаг лог");
-        sleep(5000);
+        sleep(1000);
     }
 }

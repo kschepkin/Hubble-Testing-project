@@ -12,6 +12,11 @@ plugins {
     id 'io.qameta.allure' version '2.5'
     id 'java'
     id "org.sonarqube" version "2.5"
+    id 'checkstyle'
+}
+
+checkstyle {
+    toolVersion "7.6.1"
 }
 
 allure {
@@ -25,7 +30,7 @@ allure {
     useJUnit5 {
         version = '2.13.0'
     }
-    downloadLink = 'https://dl.bintray.com/qameta/generic/io/qameta/allure/allure/2.7.0/allure-2.7.0.zip'
+    downloadLink = 'http://dl.bintray.com/qameta/generic/io/qameta/allure/allure/2.7.0/allure-2.7.0.zip'
 }
 
 group 'Hubble-testing-project'
@@ -38,7 +43,7 @@ compileJava.options.encoding = "UTF-8"
 compileTestJava.options.encoding = "UTF-8"
 
 repositories {
-    jcenter()
+    maven { url 'http://jcenter.bintray.com'}
     mavenCentral()
     maven { url 'https://jitpack.io' }
 }
